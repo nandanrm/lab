@@ -1,0 +1,47 @@
+import java.util.Scanner;
+public class CaesarCipher {
+ // Method to encrypt or decrypt a message
+ public static String cipher(String text, int shiftKey) {
+ // Use StringBuilder for efficient string manipulation
+ StringBuilder result = new StringBuilder();
+ for (char character : text.toCharArray()) {
+ if (Character.isLetter(character)) {
+ char base;
+ // Determine the base character based on case ('A' for uppercase, 'a' for
+lowercase)
+ if (Character.isUpperCase(character)) {
+ base = 'A';
+ } else {
+ base = 'a';
+ }
+ // Calculate the original position (0-25)
+ int originalPosition = character - base;
+ // Apply the shift using modular arithmetic to handle wrapping
+ // The (shiftKey % 26 + 26) % 26 handles both positive and negative shifts
+correctly
+ int newPosition = (originalPosition + shiftKey % 26 + 26) % 26;
+ // Convert back to a character and append to the result
+ char newCharacter = (char) (base + newPosition);
+
+ result.append(newCharacter);
+ } else {
+ result.append(character);
+ }
+ }
+ return result.toString();
+ }
+ public static void main(String[] args) {
+ Scanner scanner = new Scanner(System.in);
+ System.out.println("Enter a message (plaintext):");
+ String text = scanner.nextLine();
+ System.out.println("Enter a shift key (integer):");
+ int key = scanner.nextInt();
+ // Encrypt the message
+ String encryptedMessage = cipher(text, key);
+ System.out.println("\nEncrypted message: " + encryptedMessage);
+ // Decrypt the message (by shifting in the reverse direction using a negative key)
+ String decryptedMessage = cipher(encryptedMessage, -key);
+ System.out.println("Decrypted message: " + decryptedMessage);
+ scanner.close();
+ }
+} 
