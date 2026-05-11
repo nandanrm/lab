@@ -1,0 +1,34 @@
+import java.util.*;
+public class MonoalphabeticCipher {
+ public static void main(String[] args) {
+ Scanner sc = new Scanner(System.in);
+ // Define the standard alphabet
+ String alphabet = "abcdefghijklmnopqrstuvwxyz";
+ // Example Key: A full 26-character scrambled alphabet
+ String key = "zyxwvutsrqponmlkjihgfedcba";
+ System.out.print("Enter plaintext: ");
+ String plaintext = sc.nextLine().toLowerCase();
+ // 1. Create mapping for Encryption
+ Map<Character, Character> encryptMap = new HashMap<>();
+ for (int i = 0; i < alphabet.length(); i++) {
+ encryptMap.put(alphabet.charAt(i), key.charAt(i));
+ }
+ // 2. Perform Encryption
+ StringBuilder ciphertext = new StringBuilder();
+ for (char c : plaintext.toCharArray()) {
+ ciphertext.append(encryptMap.getOrDefault(c, c));
+ }
+ System.out.println("Ciphertext: " + ciphertext);
+ // 3. Perform Decryption (Reverse Mapping)
+ Map<Character, Character> decryptMap = new HashMap<>(); 
+ for (int i = 0; i < key.length(); i++) {
+ decryptMap.put(key.charAt(i), alphabet.charAt(i));
+ }
+ StringBuilder originalText = new StringBuilder();
+ for (char c : ciphertext.toString().toCharArray()) {
+ originalText.append(decryptMap.getOrDefault(c, c));
+ }
+ System.out.println("Decrypted Text: " + originalText);
+ sc.close();
+ }
+}
